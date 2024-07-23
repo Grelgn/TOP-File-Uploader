@@ -1,8 +1,3 @@
-<html>
-	<head>
-		<title>Homepage</title>
-		<body>
-			<p>Hello world!</p>
-		</body>
-	</head>
-</html>
+<% let content = `
+<p>Hello World!</p>
+` %> <%- include('layout.ejs', { content: content }) %>

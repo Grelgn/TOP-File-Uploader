@@ -1,0 +1,31 @@
+body {
+  padding-left: 20px;
+}
+
+form {
+  display: grid;
+}
+
+input {
+  width: 200px;
+  margin-bottom: 10px;
+}
+
+button {
+  width: max-content;
+}
+
+ul {
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: start;
+  gap: 20px;
+}
+
+a {
+  text-decoration: none;
+  color: blue;
+}
+

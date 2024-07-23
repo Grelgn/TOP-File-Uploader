@@ -1,0 +1,9 @@
+<% let content = `
+<form action="POST">
+	<label for="username">Username</label>
+	<input type="text" name="username" id="username" />
+	<label for="password">Password</label>
+	<input type="password" name="password" id="password" />
+	<button type="submit">Log In</button>
+</form>
+` %> <%- include('layout.ejs', { content: content }) %>
