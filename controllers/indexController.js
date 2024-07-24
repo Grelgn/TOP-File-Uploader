@@ -2,7 +2,6 @@ const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
-const LocalStrategy = require("passport-local").Strategy;
 const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
@@ -12,11 +11,11 @@ const getIndex = asyncHandler(async (req, res) => {
 });
 
 const getSignUp = asyncHandler(async (req, res) => {
-	res.render("signup", { title: "Sign Up", errors: null });
+	res.render("signup", { title: "Sign Up", errors: null, user: req.user });
 });
 
 const getLogIn = asyncHandler(async (req, res) => {
-	res.render("login", { title: "Log In" });
+	res.render("login", { title: "Log In", user: req.user });
 });
 
 const userSignUp = [
