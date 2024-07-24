@@ -7,50 +7,8 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
-passport.use(
-	new LocalStrategy(async (username, password, done) => {
-		try {
-			const { rows } = await prisma.user.findFirst({
-				where: {
-					username: username,
-				},
-			});
-			const user = rows[0];
-
-			if (!user) {
-				return done(null, false, { message: "Incorrect username" });
-			}
-			if (user.password !== password) {
-				return done(null, false, { message: "Incorrect password" });
-			}
-			return done(null, user);
-		} catch (err) {
-			return done(err);
-		}
-	})
-);
-
-passport.serializeUser((user, done) => {
-	done(null, user.id);
-});
-
-passport.deserializeUser(async (id, done) => {
-	try {
-		const { rows } = await prisma.user.findFirst({
-			where: {
-				id: id,
-			},
-		});
-		const user = rows[0];
-
-		done(null, user);
-	} catch (err) {
-		done(err);
-	}
-});
-
 const getIndex = asyncHandler(async (req, res) => {
-	res.render("index", { title: "Homepage", errors: null });
+	res.render("index", { title: "Homepage", user: req.user });
 });
 
 const getSignUp = asyncHandler(async (req, res) => {
@@ -58,7 +16,7 @@ const getSignUp = asyncHandler(async (req, res) => {
 });
 
 const getLogIn = asyncHandler(async (req, res) => {
-	res.render("login", { title: "Log In", errors: null });
+	res.render("login", { title: "Log In" });
 });
 
 const userSignUp = [
@@ -85,9 +43,7 @@ const userSignUp = [
 		.withMessage("Passwords do not match."),
 
 	asyncHandler(async (req, res, next) => {
-		// const { username, password, confirm } = req.body;
 		const result = validationResult(req);
-		console.log(result.errors);
 		if (result.errors.length > 0) {
 			res.render("signup", {
 				title: "Sign Up",
@@ -111,4 +67,27 @@ const userSignUp = [
 	}),
 ];
 
-module.exports = { getIndex, getSignUp, getLogIn, userSignUp };
+const userLogIn = [
+	passport.authenticate("local", {
+		successRedirect: "/",
+		failureRedirect: "/log-in",
+	}),
+];
+
+const userLogOut = asyncHandler(async (req, res, next) => {
+	req.logout((err) => {
+		if (err) {
+			return next(err);
+		}
+		res.redirect("/");
+	});
+});
+
+module.exports = {
+	getIndex,
+	getSignUp,
+	getLogIn,
+	userSignUp,
+	userLogIn,
+	userLogOut,
+};

@@ -1,3 +1,7 @@
-<% let content = `
-<p>Hello World!</p>
-` %> <%- include('layout.ejs', { content: content }) %>
+<%- include('header.ejs') %> 
+<% if (user) {%>
+<h1>Welcome, <%= user.username %></h1>
+<a href="/log-out">LOG OUT</a>
+<% } else { %>
+<p>Please log in</p>
+<%}%> <%- include('footer.ejs') %>

@@ -1,4 +1,4 @@
-<% let content = `
+<%- include('header.ejs') %> 
 <form method="POST">
 	<label for="username">Username</label>
 	<input type="text" name="username" id="username" />
@@ -8,4 +8,5 @@
 	<input type="password" name="confirm" id="confirm" />
 	<button type="submit">Sign Up</button>
 </form>
-`%> <%- include('layout.ejs', { content: content }) %>
+<%- include('errors.ejs') %> 
+<%- include('footer.ejs') %> 
