@@ -3,6 +3,51 @@ const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
+const { PrismaClient } = require("@prisma/client");
+
+const prisma = new PrismaClient();
+
+passport.use(
+	new LocalStrategy(async (username, password, done) => {
+		try {
+			const { rows } = await prisma.user.findFirst({
+				where: {
+					username: username,
+				},
+			});
+			const user = rows[0];
+
+			if (!user) {
+				return done(null, false, { message: "Incorrect username" });
+			}
+			if (user.password !== password) {
+				return done(null, false, { message: "Incorrect password" });
+			}
+			return done(null, user);
+		} catch (err) {
+			return done(err);
+		}
+	})
+);
+
+passport.serializeUser((user, done) => {
+	done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+	try {
+		const { rows } = await prisma.user.findFirst({
+			where: {
+				id: id,
+			},
+		});
+		const user = rows[0];
+
+		done(null, user);
+	} catch (err) {
+		done(err);
+	}
+});
 
 const getIndex = asyncHandler(async (req, res) => {
 	res.render("index", { title: "Homepage", errors: null });
@@ -49,6 +94,18 @@ const userSignUp = [
 				errors: result.errors,
 			});
 		} else {
+			bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
+				if (err) {
+					return;
+				} else {
+					await prisma.user.create({
+						data: {
+							username: req.body.username,
+							password: hashedPassword,
+						},
+					});
+				}
+			});
 			res.redirect("/");
 		}
 	}),
