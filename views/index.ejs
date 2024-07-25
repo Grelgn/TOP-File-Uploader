@@ -1,6 +1,6 @@
 <%- include('header.ejs') %> 
-<% if (user) {%>
-<h1>Welcome, <%= user.username %></h1>
+<% if (currentUser) {%>
+<h1>Welcome, <%= currentUser.username %></h1>
 <% } else { %>
 <p>Please log in</p>
 <%}%> <%- include('footer.ejs') %>

@@ -7,15 +7,16 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const getIndex = asyncHandler(async (req, res) => {
-	res.render("index", { title: "Homepage", user: req.user });
+	res.render("index", { title: "Homepage" });
 });
 
 const getSignUp = asyncHandler(async (req, res) => {
-	res.render("signup", { title: "Sign Up", errors: null, user: req.user });
+	res.render("signup", { title: "Sign Up", errors: null });
 });
 
 const getLogIn = asyncHandler(async (req, res) => {
-	res.render("login", { title: "Log In", user: req.user });
+	res.render("login", { title: "Log In", errors: req.session.messages});
+	req.session.messages = [];
 });
 
 const userSignUp = [
@@ -70,6 +71,7 @@ const userLogIn = [
 	passport.authenticate("local", {
 		successRedirect: "/",
 		failureRedirect: "/log-in",
+		failureMessage: true,
 	}),
 ];
 
