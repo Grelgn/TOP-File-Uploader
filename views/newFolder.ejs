@@ -1,0 +1,11 @@
+<%- include('header.ejs') %> 
+<% if (currentUser) {%>
+<h1><%= currentUser.username %>'s Drive</h1>
+<form method="post">
+  <label for="name">Name</label>
+  <input type="text" name="name" id="name" required>
+  <button type="submit">Make Folder</button>
+</form>
+<% } else { %>
+<p>Please log in</p>
+<%}%> <%- include('footer.ejs') %>

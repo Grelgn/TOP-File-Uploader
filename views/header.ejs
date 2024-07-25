@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="./styles.css" />
+		<link rel="stylesheet" href="/styles.css" />
 		<title><%= title %></title>
 	</head>
 	<body>
@@ -11,10 +11,11 @@
 			<ul>
 				<li><a href="/">Home</a></li>
 				<% if (!currentUser) {%>
-				<li><a href="/sign-up">Sign Up</a></li>
-				<li><a href="/log-in">Log In</a></li>
+					<li><a href="/sign-up">Sign Up</a></li>
+					<li><a href="/log-in">Log In</a></li>
 				<% } else { %>
-				<a href="/log-out">LOG OUT</a>
+					<a href="/drive">My Drive</a>
+					<a href="/log-out">Log Out</a>
 				<% } %>
 			</ul>
 		</header>

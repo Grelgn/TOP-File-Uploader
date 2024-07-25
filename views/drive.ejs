@@ -1,0 +1,20 @@
+<%- include('header.ejs') %> 
+<% if (currentUser) {%>
+  <h1><%= currentUser.username %>'s Drive</h1>
+  <div class="folders">
+    <h2>Folders</h2>
+    <a href="/drive/new"><button>New Folder</button></a>
+    <% if (folders) {%>
+      <% folders.forEach(folder => { %>
+        <h3><%= folder.name %></h3> 
+        <form action="/upload" method="post" enctype="multipart/form-data">
+          <input type="file" name="avatar" />
+          <button type="submit">Upload</button>
+        </form>
+      <% }); %>
+    <%}%>
+    
+  </div>
+<% } else { %>
+  <p>Please log in</p>
+<%}%> <%- include('footer.ejs') %>

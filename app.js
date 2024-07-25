@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const indexRouter = require("./routes/indexRouter");
+const driveRouter = require("./routes/driveRouter");
 require("dotenv").config();
 const bcrypt = require("bcryptjs");
 const session = require("express-session");
@@ -85,6 +86,7 @@ app.use((req, res, next) => {
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
+app.use("/drive", driveRouter);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () =>
