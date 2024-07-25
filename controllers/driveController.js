@@ -13,7 +13,6 @@ const getDrive = asyncHandler(async (req, res) => {
 		},
 	});
 
-	console.log(response.folders);
 	res.render("drive", { title: "My Drive", folders: response.folders });
 });
 
@@ -32,8 +31,19 @@ const makeNewFolder = asyncHandler(async (req, res) => {
 	res.redirect("/drive");
 });
 
+const deleteFolder = asyncHandler(async (req, res) => {
+	await prisma.folder.delete({
+		where: {
+			id: req.params.id,
+		},
+	});
+
+	res.redirect("/drive");
+});
+
 module.exports = {
 	getDrive,
 	getNewFolder,
 	makeNewFolder,
+	deleteFolder,
 };
