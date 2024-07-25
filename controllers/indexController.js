@@ -15,7 +15,7 @@ const getSignUp = asyncHandler(async (req, res) => {
 });
 
 const getLogIn = asyncHandler(async (req, res) => {
-	res.render("login", { title: "Log In", errors: req.session.messages});
+	res.render("login", { title: "Log In", errors: req.session.messages });
 	req.session.messages = [];
 });
 
@@ -84,6 +84,11 @@ const userLogOut = asyncHandler(async (req, res, next) => {
 	});
 });
 
+const userUpload = asyncHandler(async (req, res, next) => {
+	console.log(req.file, req.body);
+	res.redirect("/");
+});
+
 module.exports = {
 	getIndex,
 	getSignUp,
@@ -91,4 +96,5 @@ module.exports = {
 	userSignUp,
 	userLogIn,
 	userLogOut,
+	userUpload,
 };

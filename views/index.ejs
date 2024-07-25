@@ -1,6 +1,11 @@
 <%- include('header.ejs') %> 
 <% if (currentUser) {%>
 <h1>Welcome, <%= currentUser.username %></h1>
+<h3>Upload File</h3>
+<form action="/upload" method="post" enctype="multipart/form-data">
+  <input type="file" name="avatar" />
+  <button type="submit">Upload</button>
+</form>
 <% } else { %>
 <p>Please log in</p>
 <%}%> <%- include('footer.ejs') %>
