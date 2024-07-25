@@ -13,6 +13,7 @@ input {
 
 button {
   width: max-content;
+  margin-bottom: 20px;
 }
 
 ul {

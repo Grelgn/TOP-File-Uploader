@@ -8,8 +8,9 @@
       <% let folderCount = 0 %>
       <% folders.forEach(folder => { %>
         <div class="folder">
-          <h3><%= folder.name %></h3>
-          <a href="/drive/delete/<%= folder.id %>">Delete</a>
+          <b><%= folder.name %></b>
+          <a href="/drive/edit/<%= folder.id %>"><button>Edit</button></a>
+          <a href="/drive/delete/<%= folder.id %>"><button>Delete</button></a>
           <form action="/upload" method="post" enctype="multipart/form-data">
             <input type="file" name="avatar" />
             <button type="submit">Upload</button>
