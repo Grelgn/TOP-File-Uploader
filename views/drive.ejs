@@ -18,6 +18,9 @@
                 <span><%= file.originalName %> </span>
                 <span><%= file.size %> Bytes </span>
                 <span><%= file.uploadTime %> </span>
+                <form action="drive/download/<%= file.id %>" method="post">
+                  <button type="submit">Download</button>
+                </form>
               </div>
             <% }) %>
           </div>

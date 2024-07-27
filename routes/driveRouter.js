@@ -17,5 +17,6 @@ router.get("/edit/:id", driveController.getEditFolder);
 router.post("/edit/:id", driveController.editFolder);
 
 router.post("/upload/:id", upload.single("avatar"), driveController.uploadFile);
+router.post("/download/:id", driveController.downloadFile);
 
 module.exports = router;

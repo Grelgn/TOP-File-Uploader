@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const { PrismaClient } = require("@prisma/client");
+const path = require("path");
 
 const prisma = new PrismaClient();
 
@@ -13,7 +14,6 @@ const getDrive = asyncHandler(async (req, res) => {
 		},
 	});
 
-	console.log(folders);
 	res.render("drive", { title: "My Drive", folders: folders });
 });
 
@@ -90,6 +90,18 @@ const uploadFile = asyncHandler(async (req, res, next) => {
 	res.redirect("/drive");
 });
 
+const downloadFile = asyncHandler(async (req, res, next) => {
+	const { fileName, originalName } = await prisma.file.findFirst({
+		where: {
+			id: req.params.id,
+		}
+	});
+
+	const filePath = path.join(__dirname, "..", "uploads", fileName);
+
+	res.download(filePath, originalName);
+});
+
 module.exports = {
 	getDrive,
 	getNewFolder,
@@ -99,4 +111,5 @@ module.exports = {
 	getEditFolder,
 	editFolder,
 	uploadFile,
+	downloadFile,
 };
