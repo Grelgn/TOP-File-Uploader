@@ -32,4 +32,15 @@ model Folder {
   name    String
   owner   User   @relation(fields: [ownerId], references: [id])
   ownerId String
+  files   File[]
+}
+
+model File {
+  id           String   @id @default(uuid())
+  fileName     String
+  originalName String
+  size         Int
+  uploadTime   DateTime @default(now())
+  folder       Folder   @relation(fields: [folderId], references: [id])
+  folderId     String
 }

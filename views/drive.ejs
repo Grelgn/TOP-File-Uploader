@@ -11,7 +11,18 @@
           <b><%= folder.name %></b>
           <a href="/drive/edit/<%= folder.id %>"><button>Edit</button></a>
           <a href="/drive/delete/<%= folder.id %>"><button>Delete</button></a>
-          <form action="/upload" method="post" enctype="multipart/form-data">
+          <div class="files">
+            <h3>Files</h3>
+            <% folder.files.forEach(file => { %>
+              <div class="file">
+                <span><%= file.originalName %> </span>
+                <span><%= file.size %> Bytes </span>
+                <span><%= file.uploadTime %> </span>
+              </div>
+            <% }) %>
+          </div>
+          <h4>New File</h4>
+          <form action="/drive/upload/<%= folder.id %>" method="post" enctype="multipart/form-data">
             <input type="file" name="avatar" />
             <button type="submit">Upload</button>
           </form>

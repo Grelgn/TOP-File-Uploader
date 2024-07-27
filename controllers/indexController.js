@@ -84,17 +84,11 @@ const userLogOut = asyncHandler(async (req, res, next) => {
 	});
 });
 
-const userUpload = asyncHandler(async (req, res, next) => {
-	console.log(req.file, req.body);
-	res.redirect("/");
-});
-
 module.exports = {
 	getIndex,
 	getSignUp,
 	getLogIn,
 	userSignUp,
 	userLogIn,
-	userLogOut,
-	userUpload,
+	userLogOut
 };

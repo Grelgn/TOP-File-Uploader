@@ -30,3 +30,8 @@ a {
   color: blue;
 }
 
+.file {
+  display: grid;
+  grid-auto-flow: column;
+  width: 750px;
+}

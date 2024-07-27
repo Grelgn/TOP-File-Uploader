@@ -4,16 +4,17 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 const getDrive = asyncHandler(async (req, res) => {
-	const response = await prisma.user.findFirst({
-		select: {
-			folders: true,
-		},
+	const folders = await prisma.folder.findMany({
 		where: {
-			id: req.user.id,
+			ownerId: req.user.id,
+		},
+		include: {
+			files: true,
 		},
 	});
 
-	res.render("drive", { title: "My Drive", folders: response.folders });
+	console.log(folders);
+	res.render("drive", { title: "My Drive", folders: folders });
 });
 
 const getNewFolder = asyncHandler(async (req, res) => {
@@ -74,6 +75,21 @@ const editFolder = asyncHandler(async (req, res) => {
 	res.redirect("/drive");
 });
 
+const uploadFile = asyncHandler(async (req, res, next) => {
+	const { originalname, filename, size } = req.file;
+
+	await prisma.file.create({
+		data: {
+			fileName: filename,
+			originalName: originalname,
+			size: size,
+			folderId: req.params.id,
+		},
+	});
+
+	res.redirect("/drive");
+});
+
 module.exports = {
 	getDrive,
 	getNewFolder,
@@ -82,4 +98,5 @@ module.exports = {
 	deleteFolder,
 	getEditFolder,
 	editFolder,
+	uploadFile,
 };

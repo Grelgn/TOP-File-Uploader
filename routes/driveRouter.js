@@ -1,4 +1,6 @@
 const express = require("express");
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 const driveController = require("../controllers/driveController");
 
 const router = express.Router();
@@ -13,5 +15,7 @@ router.post("/delete/:id", driveController.deleteFolder);
 
 router.get("/edit/:id", driveController.getEditFolder);
 router.post("/edit/:id", driveController.editFolder);
+
+router.post("/upload/:id", upload.single("avatar"), driveController.uploadFile);
 
 module.exports = router;
