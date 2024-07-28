@@ -3,6 +3,7 @@ const { PrismaClient } = require("@prisma/client");
 const path = require("path");
 const { createClient } = require("@supabase/supabase-js");
 const fs = require("fs");
+const request = require("superagent");
 
 const prisma = new PrismaClient();
 const supabase = createClient(
@@ -104,7 +105,7 @@ const uploadFile = asyncHandler(async (req, res, next) => {
 	}
 
 	fs.unlinkSync(filePath);
-	
+
 	res.redirect("/drive");
 });
 
@@ -117,7 +118,11 @@ const downloadFile = asyncHandler(async (req, res, next) => {
 
 	const filePath = path.join(__dirname, "..", "uploads", fileName);
 
-	res.download(filePath, originalName);
+	const downloadLink = `${process.env.SUPABASE_URL}/storage/v1/object/public/files-public/${fileName}`;
+
+	res.set("Content-Disposition", `attachment; filename=${originalName}`);
+
+	request(downloadLink).pipe(res);
 });
 
 const getDeleteFile = asyncHandler(async (req, res) => {
