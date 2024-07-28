@@ -19,4 +19,7 @@ router.post("/edit/:id", driveController.editFolder);
 router.post("/upload/:id", upload.single("avatar"), driveController.uploadFile);
 router.post("/download/:id", driveController.downloadFile);
 
+router.get("/delete-file/:id", driveController.getDeleteFile);
+router.post("/delete-file/:id", driveController.deleteFile);
+
 module.exports = router;

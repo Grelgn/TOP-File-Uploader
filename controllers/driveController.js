@@ -94,12 +94,32 @@ const downloadFile = asyncHandler(async (req, res, next) => {
 	const { fileName, originalName } = await prisma.file.findFirst({
 		where: {
 			id: req.params.id,
-		}
+		},
 	});
 
 	const filePath = path.join(__dirname, "..", "uploads", fileName);
 
 	res.download(filePath, originalName);
+});
+
+const getDeleteFile = asyncHandler(async (req, res) => {
+	const file = await prisma.file.findFirst({
+		where: {
+			id: req.params.id,
+		},
+	});
+
+	res.render("deleteFile", { title: "Delete File", file: file });
+});
+
+const deleteFile = asyncHandler(async (req, res, next) => {
+	const { id } = await prisma.file.delete({
+		where: {
+			id: req.params.id,
+		},
+	});
+
+	res.redirect("/drive");
 });
 
 module.exports = {
@@ -112,4 +132,6 @@ module.exports = {
 	editFolder,
 	uploadFile,
 	downloadFile,
+	getDeleteFile,
+	deleteFile,
 };

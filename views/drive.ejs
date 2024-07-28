@@ -21,6 +21,7 @@
                 <form action="drive/download/<%= file.id %>" method="post">
                   <button type="submit">Download</button>
                 </form>
+                <a href="/drive/delete-file/<%= file.id %>"><button>Delete</button></a>
               </div>
             <% }) %>
           </div>
