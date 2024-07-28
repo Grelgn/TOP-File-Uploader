@@ -136,11 +136,24 @@ const getDeleteFile = asyncHandler(async (req, res) => {
 });
 
 const deleteFile = asyncHandler(async (req, res, next) => {
-	const { id } = await prisma.file.delete({
+	const { fileName } = await prisma.file.findFirst({
 		where: {
 			id: req.params.id,
 		},
 	});
+
+	await prisma.file.delete({
+		where: {
+			id: req.params.id,
+		},
+	});
+
+	const { data, error } = await supabase.storage
+		.from("files-public")
+		.remove([fileName]);
+	if (error) {
+		console.log(error);
+	}
 
 	res.redirect("/drive");
 });
