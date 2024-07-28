@@ -1,8 +1,14 @@
 const asyncHandler = require("express-async-handler");
 const { PrismaClient } = require("@prisma/client");
 const path = require("path");
+const { createClient } = require("@supabase/supabase-js");
+const fs = require("fs");
 
 const prisma = new PrismaClient();
+const supabase = createClient(
+	process.env.SUPABASE_URL,
+	process.env.SUPABASE_API
+);
 
 const getDrive = asyncHandler(async (req, res) => {
 	const folders = await prisma.folder.findMany({
@@ -87,6 +93,18 @@ const uploadFile = asyncHandler(async (req, res, next) => {
 		},
 	});
 
+	const filePath = path.join(__dirname, "..", "uploads", filename);
+	const file = fs.readFileSync(filePath);
+
+	const { data, error } = await supabase.storage
+		.from("files-public")
+		.upload(filename, file);
+	if (error) {
+		console.log(error);
+	}
+
+	fs.unlinkSync(filePath);
+	
 	res.redirect("/drive");
 });
 
